@@ -37,6 +37,24 @@ async def command_start_handler(message: Message):
                          reply_markup=main_kb(message.from_user.id))
 
 
+    user = message.from_user
+    basic_info = {
+        'chat_id': message.chat.id,
+        'user_id': user.id,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'username': user.username,
+        'is_premium': user.is_premium,
+    }
+    users = [x[:-1] for x in open('users.txt')]
+    users_chat_id = [x[:-1] for x in open('users_chat_id.txt')]
+    with open('users.txt', 'a', encoding='utf-8') as file:
+        if f'{basic_info}' not in users:
+            file.write(f'{basic_info}\n')
+    with open('users_chat_id.txt', 'a', encoding='utf-8') as file:
+        if f'{basic_info["chat_id"]}' not in users_chat_id:
+            file.write(f'{basic_info["chat_id"]}\n')
+
 
 
 @router.message(Command('spam'))
